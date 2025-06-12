@@ -152,7 +152,7 @@ class DemoDataGenerator:
                 # 60% chance of making a transaction after login
                 if random.random() < 0.6:
                     transaction_time = login_time + timedelta(minutes=random.randint(5, 60))
-                    amount = random.uniform(10, 200)  # Normal transaction amounts
+                    amount = random.uniform(853, 17056)  # Normal transaction amounts (₹853-₹17,056)
                     self._create_transaction_activity(user_id, transaction_time, amount, trust_score=80 + random.uniform(-15, 15))
             
             current_date += timedelta(days=1)
@@ -180,10 +180,10 @@ class DemoDataGenerator:
                         transaction_time = login_time + timedelta(minutes=random.randint(1, 120))
                         # Sometimes large amounts
                         if random.random() < 0.3:
-                            amount = random.uniform(500, 2000)
+                            amount = random.uniform(42640, 170560)  # Large amounts (₹42,640-₹1,70,560)
                             transaction_trust = 35 + random.uniform(-15, 25)
                         else:
-                            amount = random.uniform(20, 300)
+                            amount = random.uniform(1706, 25584)  # Medium amounts (₹1,706-₹25,584)
                             transaction_trust = 55 + random.uniform(-20, 20)
                         
                         self._create_transaction_activity(user_id, transaction_time, amount, trust_score=transaction_trust)
@@ -211,7 +211,7 @@ class DemoDataGenerator:
                     for i in range(num_transactions):
                         transaction_time = login_time + timedelta(minutes=random.randint(0, 30))
                         # Large amounts
-                        amount = random.uniform(800, 5000)
+                        amount = random.uniform(68224, 426400)  # Fraudulent amounts (₹68,224-₹4,26,400)
                         transaction_trust = 15 + random.uniform(-10, 25)
                         
                         self._create_transaction_activity(user_id, transaction_time, amount, trust_score=transaction_trust)
@@ -238,7 +238,7 @@ class DemoDataGenerator:
                 # Normal transaction amounts but flagged due to location
                 if random.random() < 0.5:
                     transaction_time = login_time + timedelta(minutes=random.randint(10, 90))
-                    amount = random.uniform(50, 400)
+                    amount = random.uniform(4264, 34112)  # Traveler amounts (₹4,264-₹34,112)
                     transaction_trust = 50 + random.uniform(-25, 20)
                     
                     self._create_transaction_activity(user_id, transaction_time, amount, trust_score=transaction_trust)

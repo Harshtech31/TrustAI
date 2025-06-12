@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Grid,
@@ -15,107 +15,119 @@ import {
   MenuItem,
   CircularProgress,
   Divider,
-  Paper
-} from '@mui/material';
+  Paper,
+} from "@mui/material";
 import {
   ShoppingCart,
   Security,
   CheckCircle,
   Warning,
   Error,
-  PlayArrow
-} from '@mui/icons-material';
-import axios from 'axios';
+  PlayArrow,
+} from "@mui/icons-material";
+import axios from "axios";
 
 const TransactionSimulator = () => {
   const [formData, setFormData] = useState({
-    amount: '',
-    merchant: '',
-    transaction_type: 'purchase'
+    amount: "",
+    merchant: "",
+    transaction_type: "purchase",
   });
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const merchants = [
-    'Amazon', 'Walmart', 'Target', 'Best Buy', 'Home Depot',
-    'Starbucks', 'McDonald\'s', 'Uber', 'Netflix', 'Spotify',
-    'Apple Store', 'Google Play', 'Steam', 'PayPal', 'Venmo'
+    "Amazon",
+    "Walmart",
+    "Target",
+    "Best Buy",
+    "Home Depot",
+    "Starbucks",
+    "McDonald's",
+    "Uber",
+    "Netflix",
+    "Spotify",
+    "Apple Store",
+    "Google Play",
+    "Steam",
+    "PayPal",
+    "Venmo",
   ];
 
   const transactionTypes = [
-    { value: 'purchase', label: 'Purchase' },
-    { value: 'refund', label: 'Refund' },
-    { value: 'transfer', label: 'Transfer' },
-    { value: 'subscription', label: 'Subscription' },
-    { value: 'withdrawal', label: 'Withdrawal' }
+    { value: "purchase", label: "Purchase" },
+    { value: "refund", label: "Refund" },
+    { value: "transfer", label: "Transfer" },
+    { value: "subscription", label: "Subscription" },
+    { value: "withdrawal", label: "Withdrawal" },
   ];
 
   const presetScenarios = [
     {
-      name: 'Normal Purchase',
-      description: 'Typical online shopping transaction',
-      amount: '89.99',
-      merchant: 'Amazon',
-      transaction_type: 'purchase'
+      name: "Normal Purchase",
+      description: "Typical online shopping transaction",
+      amount: "7675",
+      merchant: "Amazon",
+      transaction_type: "purchase",
     },
     {
-      name: 'Large Purchase',
-      description: 'High-value transaction that may trigger review',
-      amount: '1299.99',
-      merchant: 'Best Buy',
-      transaction_type: 'purchase'
+      name: "Large Purchase",
+      description: "High-value transaction that may trigger review",
+      amount: "110864",
+      merchant: "Best Buy",
+      transaction_type: "purchase",
     },
     {
-      name: 'Rapid Transactions',
-      description: 'Multiple quick transactions (suspicious pattern)',
-      amount: '49.99',
-      merchant: 'Steam',
-      transaction_type: 'purchase'
+      name: "Rapid Transactions",
+      description: "Multiple quick transactions (suspicious pattern)",
+      amount: "4264",
+      merchant: "Steam",
+      transaction_type: "purchase",
     },
     {
-      name: 'Unusual Merchant',
-      description: 'Transaction with unfamiliar merchant',
-      amount: '199.99',
-      merchant: 'Unknown Store XYZ',
-      transaction_type: 'purchase'
-    }
+      name: "Unusual Merchant",
+      description: "Transaction with unfamiliar merchant",
+      amount: "17056",
+      merchant: "Unknown Store XYZ",
+      transaction_type: "purchase",
+    },
   ];
 
   const handleInputChange = (field, value) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
     setResult(null);
-    setError('');
+    setError("");
   };
 
   const loadPresetScenario = (scenario) => {
     setFormData({
       amount: scenario.amount,
       merchant: scenario.merchant,
-      transaction_type: scenario.transaction_type
+      transaction_type: scenario.transaction_type,
     });
     setResult(null);
-    setError('');
+    setError("");
   };
 
   const simulateTransaction = async () => {
     if (!formData.amount || !formData.merchant) {
-      setError('Please fill in all required fields');
+      setError("Please fill in all required fields");
       return;
     }
 
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
-      const response = await axios.post('/api/transaction/analyze', formData);
+      const response = await axios.post("/api/transaction/analyze", formData);
       setResult(response.data);
     } catch (err) {
-      setError(err.response?.data?.error || 'Transaction analysis failed');
-      console.error('Transaction error:', err);
+      setError(err.response?.data?.error || "Transaction analysis failed");
+      console.error("Transaction error:", err);
     } finally {
       setLoading(false);
     }
@@ -123,11 +135,11 @@ const TransactionSimulator = () => {
 
   const getDecisionIcon = (decision) => {
     switch (decision) {
-      case 'allow':
+      case "allow":
         return <CheckCircle color="success" />;
-      case 'verify':
+      case "verify":
         return <Warning color="warning" />;
-      case 'block':
+      case "block":
         return <Error color="error" />;
       default:
         return <Security />;
@@ -136,27 +148,27 @@ const TransactionSimulator = () => {
 
   const getDecisionColor = (decision) => {
     switch (decision) {
-      case 'allow':
-        return 'success';
-      case 'verify':
-        return 'warning';
-      case 'block':
-        return 'error';
+      case "allow":
+        return "success";
+      case "verify":
+        return "warning";
+      case "block":
+        return "error";
       default:
-        return 'default';
+        return "default";
     }
   };
 
   const getRiskColor = (level) => {
     switch (level) {
-      case 'low':
-        return 'success';
-      case 'medium':
-        return 'warning';
-      case 'high':
-        return 'error';
+      case "low":
+        return "success";
+      case "medium":
+        return "warning";
+      case "high":
+        return "error";
       default:
-        return 'default';
+        return "default";
     }
   };
 
@@ -180,20 +192,22 @@ const TransactionSimulator = () => {
 
               <TextField
                 fullWidth
-                label="Amount ($)"
+                label="Amount (₹)"
                 type="number"
                 value={formData.amount}
-                onChange={(e) => handleInputChange('amount', e.target.value)}
+                onChange={(e) => handleInputChange("amount", e.target.value)}
                 margin="normal"
                 required
-                inputProps={{ min: 0, step: 0.01 }}
+                inputProps={{ min: 0, step: 1 }}
               />
 
               <FormControl fullWidth margin="normal">
                 <InputLabel>Merchant</InputLabel>
                 <Select
                   value={formData.merchant}
-                  onChange={(e) => handleInputChange('merchant', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("merchant", e.target.value)
+                  }
                   label="Merchant"
                 >
                   {merchants.map((merchant) => (
@@ -205,12 +219,14 @@ const TransactionSimulator = () => {
                 </Select>
               </FormControl>
 
-              {formData.merchant === 'custom' && (
+              {formData.merchant === "custom" && (
                 <TextField
                   fullWidth
                   label="Custom Merchant Name"
-                  value={formData.customMerchant || ''}
-                  onChange={(e) => handleInputChange('merchant', e.target.value)}
+                  value={formData.customMerchant || ""}
+                  onChange={(e) =>
+                    handleInputChange("merchant", e.target.value)
+                  }
                   margin="normal"
                   required
                 />
@@ -220,7 +236,9 @@ const TransactionSimulator = () => {
                 <InputLabel>Transaction Type</InputLabel>
                 <Select
                   value={formData.transaction_type}
-                  onChange={(e) => handleInputChange('transaction_type', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("transaction_type", e.target.value)
+                  }
                   label="Transaction Type"
                 >
                   {transactionTypes.map((type) => (
@@ -236,10 +254,12 @@ const TransactionSimulator = () => {
                 variant="contained"
                 onClick={simulateTransaction}
                 disabled={loading || !formData.amount || !formData.merchant}
-                startIcon={loading ? <CircularProgress size={20} /> : <PlayArrow />}
+                startIcon={
+                  loading ? <CircularProgress size={20} /> : <PlayArrow />
+                }
                 sx={{ mt: 3 }}
               >
-                {loading ? 'Analyzing...' : 'Simulate Transaction'}
+                {loading ? "Analyzing..." : "Simulate Transaction"}
               </Button>
 
               {error && (
@@ -266,8 +286,8 @@ const TransactionSimulator = () => {
                     <Paper
                       sx={{
                         p: 2,
-                        cursor: 'pointer',
-                        '&:hover': { backgroundColor: 'action.hover' }
+                        cursor: "pointer",
+                        "&:hover": { backgroundColor: "action.hover" },
                       }}
                       onClick={() => loadPresetScenario(scenario)}
                     >
@@ -278,7 +298,8 @@ const TransactionSimulator = () => {
                         {scenario.description}
                       </Typography>
                       <Typography variant="caption" color="primary">
-                        ${scenario.amount} • {scenario.merchant} • {scenario.transaction_type}
+                        ₹{scenario.amount} • {scenario.merchant} •{" "}
+                        {scenario.transaction_type}
                       </Typography>
                     </Paper>
                   </Grid>
@@ -298,10 +319,19 @@ const TransactionSimulator = () => {
                 </Typography>
 
                 <Box sx={{ mb: 3 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 2,
+                      mb: 2,
+                    }}
+                  >
                     {getDecisionIcon(result.decision)}
                     <Typography variant="h5">
-                      Transaction {result.decision.charAt(0).toUpperCase() + result.decision.slice(1)}
+                      Transaction{" "}
+                      {result.decision.charAt(0).toUpperCase() +
+                        result.decision.slice(1)}
                     </Typography>
                   </Box>
 
@@ -317,7 +347,13 @@ const TransactionSimulator = () => {
                   />
                   <Chip
                     label={`Trust Score: ${result.trust_score}/100`}
-                    color={result.trust_score >= 70 ? 'success' : result.trust_score >= 40 ? 'warning' : 'error'}
+                    color={
+                      result.trust_score >= 70
+                        ? "success"
+                        : result.trust_score >= 40
+                        ? "warning"
+                        : "error"
+                    }
                     sx={{ mb: 1 }}
                   />
                 </Box>
@@ -337,20 +373,25 @@ const TransactionSimulator = () => {
                   </Alert>
                 )}
 
-                {result.recommended_actions && result.recommended_actions.length > 0 && (
-                  <>
-                    <Typography variant="subtitle1" gutterBottom>
-                      Recommended Actions
-                    </Typography>
-                    <Box component="ul" sx={{ pl: 2, mb: 2 }}>
-                      {result.recommended_actions.map((action, index) => (
-                        <Typography component="li" variant="body2" key={index}>
-                          {action}
-                        </Typography>
-                      ))}
-                    </Box>
-                  </>
-                )}
+                {result.recommended_actions &&
+                  result.recommended_actions.length > 0 && (
+                    <>
+                      <Typography variant="subtitle1" gutterBottom>
+                        Recommended Actions
+                      </Typography>
+                      <Box component="ul" sx={{ pl: 2, mb: 2 }}>
+                        {result.recommended_actions.map((action, index) => (
+                          <Typography
+                            component="li"
+                            variant="body2"
+                            key={index}
+                          >
+                            {action}
+                          </Typography>
+                        ))}
+                      </Box>
+                    </>
+                  )}
 
                 {result.transaction_id && (
                   <Typography variant="caption" color="text.secondary">
@@ -361,10 +402,13 @@ const TransactionSimulator = () => {
             </Card>
           ) : (
             <Card>
-              <CardContent sx={{ textAlign: 'center', py: 8 }}>
-                <ShoppingCart sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
+              <CardContent sx={{ textAlign: "center", py: 8 }}>
+                <ShoppingCart
+                  sx={{ fontSize: 64, color: "text.secondary", mb: 2 }}
+                />
                 <Typography variant="h6" color="text.secondary">
-                  Enter transaction details and click "Simulate Transaction" to see the fraud detection analysis
+                  Enter transaction details and click "Simulate Transaction" to
+                  see the fraud detection analysis
                 </Typography>
               </CardContent>
             </Card>

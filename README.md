@@ -4,7 +4,7 @@
 
 ## 🎯 The Problem We Solve
 
-Every year, businesses lose **$32 billion** to online fraud, while legitimate customers face frustrating false positives that block their purchases. Traditional fraud detection systems are:
+Every year, businesses lose **₹2.73 trillion** to online fraud, while legitimate customers face frustrating false positives that block their purchases. Traditional fraud detection systems are:
 
 - **Too slow** - Taking seconds or minutes to make decisions
 - **Too rigid** - Binary approve/deny decisions that hurt customer experience
@@ -31,7 +31,7 @@ Every year, businesses lose **$32 billion** to online fraud, while legitimate cu
 
 - **85% reduction** in fraudulent transactions
 - **60% fewer false positives** that frustrate customers
-- **$2.3M annual savings** for mid-size retailers
+- **₹19.6 crore annual savings** for mid-size retailers
 - **99.9% uptime** with enterprise-grade reliability
 
 ## 🎮 See It In Action
@@ -169,7 +169,7 @@ We've created realistic user personas to demonstrate different fraud scenarios:
 
 1. Login as `alice_normal`
 2. Navigate to Transaction Simulator
-3. Try a normal purchase ($89.99 at Amazon)
+3. Try a normal purchase (₹7,675 at Amazon)
 4. **Result**: ✅ Instant approval with high trust score
 
 #### Scenario 2: Suspicious Activity Detection
@@ -181,7 +181,7 @@ We've created realistic user personas to demonstrate different fraud scenarios:
 #### Scenario 3: Fraud Prevention
 
 1. Login as `charlie_fraudster`
-2. Try a high-value transaction ($5000 at unknown merchant)
+2. Try a high-value transaction (₹4,26,400 at unknown merchant)
 3. **Result**: 🚨 Transaction blocked with clear explanation
 
 #### Scenario 4: Admin Monitoring
@@ -239,12 +239,12 @@ Our intelligent algorithm analyzes multiple risk factors:
 
 ### 💰 **ROI Calculator**
 
-For a mid-size retailer processing **$100M annually**:
+For a mid-size retailer processing **₹852.8 crore annually**:
 
-- **Fraud Losses Prevented**: $2.1M (from $2.5M to $400K)
-- **False Positive Reduction**: $200K (fewer blocked legitimate customers)
-- **Operational Efficiency**: $150K (automated decision-making)
-- **Total Annual Savings**: **$2.45M**
+- **Fraud Losses Prevented**: ₹17.9 crore (from ₹21.3 crore to ₹3.4 crore)
+- **False Positive Reduction**: ₹1.7 crore (fewer blocked legitimate customers)
+- **Operational Efficiency**: ₹1.3 crore (automated decision-making)
+- **Total Annual Savings**: **₹20.9 crore**
 
 ### 🎯 **Competitive Advantages**
 

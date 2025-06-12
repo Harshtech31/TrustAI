@@ -167,16 +167,16 @@ class TrustEngine:
         elif transaction_count > 5:
             risk_score -= 15
         
-        # Large amounts
-        if amount > 1000:
+        # Large amounts (converted to INR)
+        if amount > 85280:  # ₹85,280 (was $1000)
             risk_score -= 20
-        elif amount > 500:
+        elif amount > 42640:  # ₹42,640 (was $500)
             risk_score -= 10
-        
-        # High total daily amount
-        if total_amount > 5000:
+
+        # High total daily amount (converted to INR)
+        if total_amount > 426400:  # ₹4,26,400 (was $5000)
             risk_score -= 25
-        elif total_amount > 2000:
+        elif total_amount > 170560:  # ₹1,70,560 (was $2000)
             risk_score -= 15
         
         # Check for rapid-fire transactions (within minutes)
