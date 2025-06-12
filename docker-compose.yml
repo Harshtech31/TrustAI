@@ -1,0 +1,106 @@
+version: '3.8'
+
+services:
+  # TrustAI Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-trustai-secret-key-change-in-production}
+      - DATABASE_URL=sqlite:///trustai.db
+    volumes:
+      - ./logs:/app/logs
+      - ./trustai.db:/app/trustai.db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # TrustAI Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000
+    depends_on:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Production setup with PostgreSQL (optional)
+  backend-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "5001:5000"
+    environment:
+      - FLASK_ENV=production
+      - DATABASE_URL=postgresql://trustai:trustai@db:5432/trustai
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-trustai-secret-key-change-in-production}
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+    profiles:
+      - production
+
+  # PostgreSQL Database (for production)
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=trustai
+      - POSTGRES_USER=trustai
+      - POSTGRES_PASSWORD=trustai
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    profiles:
+      - production
+
+  # Redis for caching and sessions (for production)
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    profiles:
+      - production
+
+  # Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - frontend
+      - backend
+    restart: unless-stopped
+    profiles:
+      - production
+
+volumes:
+  postgres_data:
+  redis_data:

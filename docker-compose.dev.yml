@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # TrustAI Backend API (Development)
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=True
+      - JWT_SECRET_KEY=trustai-dev-secret-key
+      - DATABASE_URL=sqlite:///trustai.db
+    volumes:
+      - .:/app
+      - ./logs:/app/logs
+      - ./trustai.db:/app/trustai.db
+    restart: unless-stopped
+    command: python app.py
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # TrustAI Frontend (Development)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000
+    depends_on:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+networks:
+  default:
+    name: trustai-dev-network
